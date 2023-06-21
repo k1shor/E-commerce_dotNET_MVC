@@ -1,0 +1,17 @@
+﻿@model Category
+
+<h1>Update Category</h1>
+<form method="post" class="w-50 m-5 p-5 shadow-lg">
+    <input type="hidden" asp-for="ID" />
+    <input type="hidden" asp-for="createdAt"/>
+    <label asp-for="Name"></label>
+    <div class="d-flex">
+        <input type="text" asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name"></span>
+    </div>
+    
+    <div class="btn-group w-100">
+        <button class="btn btn-warning">Update</button>
+        <a asp-controller="Category" asp-action="Index" class="btn btn-danger">Back</a>
+    </div>
+</form>

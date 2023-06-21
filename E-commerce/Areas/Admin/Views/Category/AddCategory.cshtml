@@ -1,0 +1,22 @@
+﻿@model Category
+
+<h1>Add New Category</h1>
+@*<div asp-validation-summary="All"></div>*@
+
+<form method="post" class="w-50 m-5 p-5 shadow-lg">
+    <label asp-for="Name"></label>
+    <div class="d-flex">
+        <input type="text" asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name"></span>
+
+    </div>
+
+    <div class="btn-group w-100">
+        <button class="btn btn-warning">Add Category</button>
+        <a asp-controller="Category" asp-action="Index" class="btn btn-danger">Back</a>
+    </div>
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
