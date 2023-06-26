@@ -1,0 +1,57 @@
+﻿
+@model ProductViewModel;
+
+<h1>Add New Product</h1>
+<div asp-validation-summary="All"></div>
+
+<form method="post" class="w-50 m-5 p-5 shadow-lg">
+    <input type="hidden" asp-for="Product.Rating" value="1" />
+
+    <label asp-for="@Model.Product.Title"></label>
+    <div class="d-flex">
+        <input type="text" asp-for="Product.Title" class="form-control" />
+        <span asp-validation-for="Product.Title"></span>
+
+    </div>
+
+    <label asp-for="Product.Price"></label>
+    <div class="d-flex">
+        <input type="number" asp-for="Product.Price" class="form-control" />
+        <span asp-validation-for="Product.Price"></span>
+
+    </div>
+
+    <label asp-for="Product.Description"></label>
+    <div class="d-flex">
+        <textarea asp-for="Product.Description" class="form-control" style="resize:none;"></textarea>
+        <span asp-validation-for="Product.Description"></span>
+
+    </div>
+
+    <label asp-for="Product.Count_In_Stock"></label>
+    <div class="d-flex">
+        <input type="number" asp-for="Product.Count_In_Stock" class="form-control" />
+        <span asp-validation-for="Product.Count_In_Stock"></span>
+
+    </div>
+
+    <label asp-for="Product.Category"></label>
+
+    <div class="d-flex">
+        <select asp-for="Product.CategoryId" class="form-select" asp-items="@Model.categoryList" >
+            <option disabled selected>--select category--</option>
+        </select>
+        <span asp-validation-for="Product.Category"></span>
+
+    </div>
+
+
+    <div class="btn-group w-100">
+        <button class="btn btn-warning">Add Product</button>
+        <a asp-controller="Product" asp-action="Index" class="btn btn-danger">Back</a>
+    </div>
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

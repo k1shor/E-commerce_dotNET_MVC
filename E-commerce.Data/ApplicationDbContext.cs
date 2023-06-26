@@ -31,7 +31,8 @@ namespace E_commerce.Data
                     Description = "Apple Iphone 14, ........................",
                     Rating = 4,
                     createdAt = System.DateTime.Now.ToString(),
-                    updatedAt = System.DateTime.Now.ToString()
+                    updatedAt = System.DateTime.Now.ToString(),
+                    CategoryId = 1
                 });
         }
     }

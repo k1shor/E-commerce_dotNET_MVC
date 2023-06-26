@@ -1,7 +1,9 @@
 ﻿using E_commerce.Data;
 using E_commerce.Data.Repository.IRepository;
 using E_commerce.Models;
+using E_Commerce.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace E_commerce.Areas.Admin.Controllers
 {
@@ -20,32 +22,56 @@ namespace E_commerce.Areas.Admin.Controllers
         {
             //            List<Product> categories = _db.Categories.ToList();
             //IEnumerable<Product> categories = _db.FindAll();
-            IEnumerable<Product> categories = _unitOfWork.Product.FindAll();
+            IEnumerable<Product> products = _unitOfWork.Product.FindAll("Category");
 
-            return View(categories);
+            return View(products);
         }
         [HttpGet]
         public IActionResult AddProduct()
         {
-            return View();
+            IEnumerable<SelectListItem> categoryList = _unitOfWork.Category
+                .FindAll().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.ID.ToString()
+                });
+
+            ProductViewModel productViewModel = new ProductViewModel()
+            {
+                categoryList = categoryList,
+                Product = new Product()
+            };
+
+            //ViewBag.categoryList = categoryList;
+            //ViewData["categoryList"] = categoryList;
+            return View(productViewModel);
         }
         [HttpPost]
-        public IActionResult AddProduct(Product product)
+        public IActionResult AddProduct(ProductViewModel productVM)
         {
             //ModelState.AddModelError("Name", "Product is required");
             
             if (ModelState.IsValid)
             {
-                product.createdAt = DateTime.Now.ToString();
-                product.updatedAt = DateTime.Now.ToString();
+                productVM.Product.createdAt = DateTime.Now.ToString();
+                productVM.Product.updatedAt = DateTime.Now.ToString();
                 //_db.Categories.Add(product);
-                _unitOfWork.Product.Create(product);
+                _unitOfWork.Product.Create(productVM.Product);
                 //_db.SaveChanges();
                 _unitOfWork.Save();
                 TempData["success"] = "Product Added Successfully";
                 return RedirectToAction("Index");
             }
-            return View();
+            else
+            {
+                productVM.categoryList = _unitOfWork.Category
+                .FindAll().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.ID.ToString()
+                });
+            return View(productVM);
+            }
         }
         [HttpGet]
         public IActionResult UpdateProduct(int id)

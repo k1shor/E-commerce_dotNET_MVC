@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_commerce.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230621060220_Product Table Created")]
-    partial class ProductTableCreated
+    [Migration("20230623060046_Tables added")]
+    partial class Tablesadded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,8 +51,8 @@ namespace E_commerce.Data.Migrations
                         {
                             ID = 1,
                             Name = "Mobiles",
-                            createdAt = "6/21/2023 11:47:19 AM",
-                            updatedAt = "6/21/2023 11:47:19 AM"
+                            createdAt = "6/23/2023 11:45:46 AM",
+                            updatedAt = "6/23/2023 11:45:46 AM"
                         });
                 });
 
@@ -63,6 +63,12 @@ namespace E_commerce.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Count_In_Stock")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -86,19 +92,34 @@ namespace E_commerce.Data.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Products");
 
                     b.HasData(
                         new
                         {
                             ID = 1,
+                            CategoryId = 1,
+                            Count_In_Stock = 0,
                             Description = "Apple Iphone 14, ........................",
                             Price = 200000,
                             Rating = 4,
                             Title = "Apple Iphone 14",
-                            createdAt = "6/21/2023 11:47:19 AM",
-                            updatedAt = "6/21/2023 11:47:19 AM"
+                            createdAt = "6/23/2023 11:45:46 AM",
+                            updatedAt = "6/23/2023 11:45:46 AM"
                         });
+                });
+
+            modelBuilder.Entity("E_commerce.Models.Product", b =>
+                {
+                    b.HasOne("E_commerce.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

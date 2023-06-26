@@ -5,7 +5,7 @@
 namespace E_commerce.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class ProductTableCreated : Migration
+    public partial class Tablesadded : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,34 +34,47 @@ namespace E_commerce.Data.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Count_In_Stock = table.Column<int>(type: "int", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: false),
                     createdAt = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    updatedAt = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    updatedAt = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Products_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "ID", "Name", "createdAt", "updatedAt" },
-                values: new object[] { 1, "Mobiles", "6/21/2023 11:47:19 AM", "6/21/2023 11:47:19 AM" });
+                values: new object[] { 1, "Mobiles", "6/23/2023 11:45:46 AM", "6/23/2023 11:45:46 AM" });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "ID", "Description", "Price", "Rating", "Title", "createdAt", "updatedAt" },
-                values: new object[] { 1, "Apple Iphone 14, ........................", 200000, 4, "Apple Iphone 14", "6/21/2023 11:47:19 AM", "6/21/2023 11:47:19 AM" });
+                columns: new[] { "ID", "CategoryId", "Count_In_Stock", "Description", "Price", "Rating", "Title", "createdAt", "updatedAt" },
+                values: new object[] { 1, 1, 0, "Apple Iphone 14, ........................", 200000, 4, "Apple Iphone 14", "6/23/2023 11:45:46 AM", "6/23/2023 11:45:46 AM" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_CategoryId",
+                table: "Products",
+                column: "CategoryId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Categories");
         }
     }
 }

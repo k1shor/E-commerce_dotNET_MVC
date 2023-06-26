@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using E_commerce.Data.Repository.IRepository;
+using E_commerce.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_commerce.Data.Repository
@@ -35,9 +36,14 @@ namespace E_commerce.Data.Repository
             dbset.RemoveRange(entities);
         }
 
-        public IEnumerable<T> FindAll()
+        public IEnumerable<T> FindAll(string? includeProperties = null)
         {
             IQueryable<T> query = dbset;
+            if(includeProperties != null)
+            {
+            query = query.Include(includeProperties);
+            }
+
             return query.ToList();
         }
 
