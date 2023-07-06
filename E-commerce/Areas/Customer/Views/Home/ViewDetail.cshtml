@@ -1,0 +1,25 @@
+﻿@model Product
+
+@{
+    ViewData["Title"] = "Product Detail";
+}
+
+<div class="container mx-auto my-4 p-5 shadow-lg rounded-3">
+    <div class="row align-items-center">
+        <div class="col-md-6 col-12 p-5">
+            <img src="@Model.ImageUrl" alt="@Model.Title" class="w-100" />
+        </div>
+        <div class="col-md-6 col-12">
+            <h2>@Model.Title</h2>
+            <h3>Price: @Model.Price</h3>
+            <h4>Description: @Model.Description</h4>
+            <h3>In Stock: @Model.Count_In_Stock</h3>
+            <h3>Rating: @Model.Rating</h3>
+            <button class="btn btn-warning">Add to Cart</button>
+        </div>
+
+    </div>
+
+</div>
+
+

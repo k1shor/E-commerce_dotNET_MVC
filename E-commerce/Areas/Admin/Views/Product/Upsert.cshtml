@@ -1,11 +1,15 @@
 ﻿
 @model ProductViewModel;
 
-<h1>Add New Product</h1>
+<h1>@(Model.Product.ID == 0?"Add New" : "Update") Product</h1>
 <div asp-validation-summary="All"></div>
 
-<form method="post" class="w-50 m-5 p-5 shadow-lg">
+<div class="container d-flex">
+<form method="post" class="w-50 m-5 p-5 shadow-lg" enctype="multipart/form-data">
     <input type="hidden" asp-for="Product.Rating" value="1" />
+    <input type="hidden" asp-for="Product.createdAt" />
+    <input type="hidden" asp-for="Product.ID" />
+    <input type="hidden" asp-for="Product.ImageUrl" />
 
     <label asp-for="@Model.Product.Title"></label>
     <div class="d-flex">
@@ -45,12 +49,31 @@
 
     </div>
 
+    <label asp-for="Product.ImageUrl"></label>
+
+    <div class="d-flex">
+        <input type="file" name="file" class="form-control" />
+
+    </div>
+
 
     <div class="btn-group w-100">
-        <button class="btn btn-warning">Add Product</button>
+        @if(Model.Product.ID == 0){
+            <button class="btn btn-warning">Add Product</button>
+        }
+        else
+        {
+            <button class="btn btn-warning">Update Product</button>
+        }
+
         <a asp-controller="Product" asp-action="Index" class="btn btn-danger">Back</a>
     </div>
 </form>
+<div class="w-50 p-5">
+    <img src="@Model.Product.ImageUrl" alt="@Model.Product.Title" style="width:100%"/>
+</div>
+
+</div>
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />

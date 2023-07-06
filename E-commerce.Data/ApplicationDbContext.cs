@@ -32,7 +32,8 @@ namespace E_commerce.Data
                     Rating = 4,
                     createdAt = System.DateTime.Now.ToString(),
                     updatedAt = System.DateTime.Now.ToString(),
-                    CategoryId = 1
+                    CategoryId = 1,
+                    ImageUrl = "image",
                 });
         }
     }

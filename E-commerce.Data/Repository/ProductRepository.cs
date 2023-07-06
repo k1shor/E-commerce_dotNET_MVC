@@ -23,7 +23,28 @@ namespace E_commerce.Data.Repository
 
         public void Update(Product Product)
         {
-            _db.Products.Update(Product);
+            /*            _db.Products.Update(Product);*/
+            Product productToUpdate = _db.Products.FirstOrDefault(u => u.ID == Product.ID);
+            if (Product.ImageUrl == null)
+            {
+                productToUpdate.Title = Product.Title;
+                productToUpdate.Price = Product.Price;
+                productToUpdate.Description = Product.Description;
+                productToUpdate.Category = Product.Category;
+                productToUpdate.CategoryId = Product.CategoryId;
+                productToUpdate.Count_In_Stock = Product.Count_In_Stock;
+                /*productToUpdate.ImageUrl = productToUpdate.ImageUrl;*/
+            }
+            else
+            {
+                productToUpdate.Title = Product.Title;
+                productToUpdate.Price = Product.Price;
+                productToUpdate.Description = Product.Description;
+                productToUpdate.Category = Product.Category;
+                productToUpdate.CategoryId = Product.CategoryId;
+                productToUpdate.Count_In_Stock = Product.Count_In_Stock;
+                productToUpdate.ImageUrl = Product.ImageUrl;
+            }
         }
     }
 }

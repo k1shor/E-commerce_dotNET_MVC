@@ -2,8 +2,10 @@
 @model Product
 
 <h1>Delete Product</h1>
+<div class="container d-flex">
 <form method="post" class="w-50 m-5 p-5 shadow-lg">
     <input type="hidden" asp-for="ID" />
+    <input type="hidden" asp-for="ImageUrl" />
     <label asp-for="Title"></label>
     <div class="d-flex">
         <input type="text" asp-for="Title" class="form-control" disabled/>
@@ -44,3 +46,7 @@
 
     </div>
 </form>
+<div class="w-50 p-5">
+    <img src="@Model.ImageUrl" alt="@Model.Title" style="width:100%" />
+</div>
+</div>

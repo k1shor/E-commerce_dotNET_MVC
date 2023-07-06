@@ -48,8 +48,8 @@ namespace E_commerce.Data.Migrations
                         {
                             ID = 1,
                             Name = "Mobiles",
-                            createdAt = "6/23/2023 11:45:46 AM",
-                            updatedAt = "6/23/2023 11:45:46 AM"
+                            createdAt = "6/26/2023 11:45:38 AM",
+                            updatedAt = "6/26/2023 11:45:38 AM"
                         });
                 });
 
@@ -68,6 +68,10 @@ namespace E_commerce.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -100,11 +104,12 @@ namespace E_commerce.Data.Migrations
                             CategoryId = 1,
                             Count_In_Stock = 0,
                             Description = "Apple Iphone 14, ........................",
+                            ImageUrl = "image",
                             Price = 200000,
                             Rating = 4,
                             Title = "Apple Iphone 14",
-                            createdAt = "6/23/2023 11:45:46 AM",
-                            updatedAt = "6/23/2023 11:45:46 AM"
+                            createdAt = "6/26/2023 11:45:38 AM",
+                            updatedAt = "6/26/2023 11:45:38 AM"
                         });
                 });
 

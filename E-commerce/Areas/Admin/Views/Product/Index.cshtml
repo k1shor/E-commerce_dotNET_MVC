@@ -1,11 +1,11 @@
 ﻿@model List<Product>
 
 <h1>Products</h1>
-<a asp-controller="Product" asp-action="AddProduct" class="btn btn-warning btn-small">Add New Product</a>
-<table class="table table-bordered text-center">
+<a asp-controller="Product" asp-action="Upsert" class="btn btn-warning btn-small">Add New Product</a>
+<table class="table table-bordered text-center" id="prodTable">
     <thead class="table-dark">
         <tr>
-            <td>S.No.</td>
+            <td>ID</td>
             <td>Product Name</td>
             <td>Category</td>
             <td>Price</td>
@@ -14,7 +14,7 @@
             <td>Action</td>
         </tr>
     </thead>
-    <tbody>
+    @*<tbody>
         @foreach (var obj in Model)
         {
             <tr>
@@ -31,12 +31,15 @@
                 <td>@obj.Rating</td>
                 <td>
                     <div class="btn-group">
-                        <a asp-controller="Product" asp-action="UpdateProduct" asp-route-id="@obj.ID"><button class="btn btn-warning">Update</button></a>
+                        <a asp-controller="Product" asp-action="Upsert" asp-route-id="@obj.ID"><button class="btn btn-warning">Update</button></a>
                         <a asp-controller="Product" asp-action="DeleteProduct" asp-route-id="@obj.ID" class="btn btn-danger" onclick="DeleteProduct(@obj.ID)">Delete</a>
                     </div>
                 </td>
             </tr>
         }
-    </tbody>
+    </tbody>*@
 </table>
 
+@section Scripts{
+    <script src="/js/productDataTable.js"></script>
+}

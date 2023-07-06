@@ -5,7 +5,7 @@
 namespace E_commerce.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Tablesadded : Migration
+    public partial class Imagefieldadded : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,7 +38,8 @@ namespace E_commerce.Data.Migrations
                     Rating = table.Column<int>(type: "int", nullable: false),
                     createdAt = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     updatedAt = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,12 +55,12 @@ namespace E_commerce.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "ID", "Name", "createdAt", "updatedAt" },
-                values: new object[] { 1, "Mobiles", "6/23/2023 11:45:46 AM", "6/23/2023 11:45:46 AM" });
+                values: new object[] { 1, "Mobiles", "6/26/2023 11:45:38 AM", "6/26/2023 11:45:38 AM" });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "ID", "CategoryId", "Count_In_Stock", "Description", "Price", "Rating", "Title", "createdAt", "updatedAt" },
-                values: new object[] { 1, 1, 0, "Apple Iphone 14, ........................", 200000, 4, "Apple Iphone 14", "6/23/2023 11:45:46 AM", "6/23/2023 11:45:46 AM" });
+                columns: new[] { "ID", "CategoryId", "Count_In_Stock", "Description", "ImageUrl", "Price", "Rating", "Title", "createdAt", "updatedAt" },
+                values: new object[] { 1, 1, 0, "Apple Iphone 14, ........................", "image", 200000, 4, "Apple Iphone 14", "6/26/2023 11:45:38 AM", "6/26/2023 11:45:38 AM" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
