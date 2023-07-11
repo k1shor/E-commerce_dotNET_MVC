@@ -2,10 +2,8 @@
 using E_commerce.Data.Repository.IRepository;
 using E_commerce.Models;
 using E_Commerce.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Drawing;
 
 namespace E_commerce.Areas.Admin.Controllers
 {
