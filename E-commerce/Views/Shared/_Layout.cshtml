@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity;
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -18,7 +23,7 @@
     <header>
 
         <div class="container-fluid">
-            <div class="row bg-dark">
+            <div class="row bg-dark align-items-center">
                 <div class="col-md-3 text-center fw-bold">
                     <a class="navbar-brand fs-3 text-white" asp-area="" asp-controller="Home" asp-action="Index">E-Commerce</a>
                 </div>
@@ -29,9 +34,22 @@
                     </form>
                 </div>
                 <div class="col-md-3 fs-3 d-flex justify-content-evenly">
-                    <a id="login" asp-area="Identity" asp-page="/Account/Login"><i class="bi bi-box-arrow-in-left text-white"></i></a>
-                    <a id="register" asp-area="Identity" asp-page="/Account/Register"><i class="bi bi-person-plus text-white"></i></a>
-                    <a ><i class="bi bi-cart text-white"></i></a>
+
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                            <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0"><i class="bi bi-box-arrow-right text-white"></i></button>
+                            </form>
+                    }
+                    else
+                    {
+                            <a class="" id="register" asp-area="Identity" asp-page="/Account/Register"><i class="bi bi-person-plus text-white"></i></a>
+                            <a class="" id="login" asp-area="Identity" asp-page="/Account/Login"><i class="bi bi-box-arrow-in-left text-white"></i></a>
+                    }
+
+                    
+                    <a class=""><i class="bi bi-cart text-white"></i></a>
                 </div>
             </div>
         </div>
