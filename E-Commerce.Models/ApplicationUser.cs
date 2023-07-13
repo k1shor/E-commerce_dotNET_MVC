@@ -17,5 +17,8 @@ namespace E_Commerce.Models
         public String? State { get; set; }
         public String? PostalCode { get; set; }
 
+        public DateTime dob { get; set; }
+        public bool Gender { get; set; }
+
     }
 }
