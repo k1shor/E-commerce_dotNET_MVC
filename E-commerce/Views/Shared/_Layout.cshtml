@@ -38,10 +38,12 @@
 
                     @if (SignInManager.IsSignedIn(User))
                     {
-                            <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                            <a id="manage" class="nav-link text-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><i class="bi bi-person-circle"></i></a>
                             <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                                <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0"><i class="bi bi-box-arrow-right text-white"></i></button>
+                                <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0"><i class="bi bi-box-arrow-right text-white fs-3"></i></button>
                             </form>
+                        <a class="nav-link"><i class="bi bi-cart text-white"></i></a>
+
                     }
                     else
                     {
@@ -50,7 +52,6 @@
                     }
 
                     
-                    <a class=""><i class="bi bi-cart text-white"></i></a>
                 </div>
             </div>
         </div>

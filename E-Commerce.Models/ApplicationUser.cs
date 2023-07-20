@@ -16,9 +16,11 @@ namespace E_Commerce.Models
         public String? City { get; set; }
         public String? State { get; set; }
         public String? PostalCode { get; set; }
+        public String? Country { get; set; }
+        public String? Phone { get; set; }
 
         public DateTime dob { get; set; }
-        public bool Gender { get; set; }
+        public String Gender { get; set; }
 
     }
 }

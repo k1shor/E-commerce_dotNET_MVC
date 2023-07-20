@@ -4,6 +4,7 @@ using E_commerce.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_commerce.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230719050332_Country and Phone added in Application User")]
+    partial class CountryandPhoneaddedinApplicationUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,8 +52,8 @@ namespace E_commerce.Data.Migrations
                         {
                             ID = 1,
                             Name = "Mobiles",
-                            createdAt = "7/19/2023 11:14:42 AM",
-                            updatedAt = "7/19/2023 11:14:42 AM"
+                            createdAt = "7/19/2023 10:48:32 AM",
+                            updatedAt = "7/19/2023 10:48:32 AM"
                         });
                 });
 
@@ -109,8 +112,8 @@ namespace E_commerce.Data.Migrations
                             Price = 200000,
                             Rating = 4,
                             Title = "Apple Iphone 14",
-                            createdAt = "7/19/2023 11:14:42 AM",
-                            updatedAt = "7/19/2023 11:14:42 AM"
+                            createdAt = "7/19/2023 10:48:32 AM",
+                            updatedAt = "7/19/2023 10:48:32 AM"
                         });
                 });
 
@@ -330,9 +333,8 @@ namespace E_commerce.Data.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("Gender")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()

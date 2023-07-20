@@ -107,6 +107,17 @@ namespace E_commerce.Areas.Identity.Pages.Account
             public string? Role { get; set; }
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
+
+            public String Name { get; set; }
+            public String? Street { get; set; }
+            public String? City { get; set; }
+            public String? State { get; set; }
+            public String? PostalCode { get; set; }
+
+            public DateTime dob { get; set; }
+            public String Gender { get; set; }
+            public String? Country { get; set; }
+            public String? Phone { get; set; }
         }
 
 
@@ -142,6 +153,15 @@ namespace E_commerce.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                user.Name = Input.Name;
+                user.dob = Input.dob;
+                user.Gender = Input.Gender;
+                user.Street = Input.Street;
+                user.City = Input.City;
+                user.State = Input.State;
+                user.PostalCode = Input.PostalCode;
+                user.Country = Input.Country;
+                user.Phone = Input.Phone;
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)

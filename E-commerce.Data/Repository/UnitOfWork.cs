@@ -12,13 +12,16 @@ namespace E_commerce.Data.Repository
         private readonly ApplicationDbContext _db;
         public ICategoryRepository Category { get; set; }
         public IProductRepository Product { get; set; }
-
+        public IUserRepository User { get; set; }
+        public IShoppingCartRepository ShoppingCart { get; set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
             Category = new CategoryRepository(db);
             Product = new ProductRepository(db);
+            User = new UserRepository(db);
+            ShoppingCart = new ShoppingCartRepository(db);
         }
 
         public void Save()

@@ -6,6 +6,9 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using E_commerce.Data.Repository;
+using E_commerce.Data.Repository.IRepository;
+using E_Commerce.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -16,13 +19,16 @@ namespace E_commerce.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IUnitOfWork uow;
 
         public IndexModel(
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            SignInManager<IdentityUser> signInManager,
+            IUnitOfWork uow)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            this.uow = uow;
         }
 
         /// <summary>
@@ -57,19 +63,36 @@ namespace E_commerce.Areas.Identity.Pages.Account.Manage
             /// </summary>
             [Phone]
             [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
+            public string Phone { get; set; }
+            public String Name { get; set; }
+            public String? Street { get; set; }
+            public String? City { get; set; }
+            public String? State { get; set; }
+            public String? PostalCode { get; set; }
+
+            public DateTime dob { get; set; }
+            public String Gender { get; set; }
+            public String? Country { get; set; }
         }
 
         private async Task LoadAsync(IdentityUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
             Username = userName;
+
+            ApplicationUser userObj = uow.User.FirstOrDefault(u => u.UserName == Username);
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                Phone = userObj.Phone,
+                Name = userObj.Name,
+                Street = userObj.Street,
+                City = userObj.City,
+                State = userObj.State,
+                PostalCode = userObj.PostalCode,
+                Country = userObj.Country,
+                Gender = userObj.Gender,
+                dob = userObj.dob,
             };
         }
 
@@ -85,7 +108,7 @@ namespace E_commerce.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(InputModel Input)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -100,9 +123,9 @@ namespace E_commerce.Areas.Identity.Pages.Account.Manage
             }
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
+            if (Input.Phone != phoneNumber)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.Phone);
                 if (!setPhoneResult.Succeeded)
                 {
                     StatusMessage = "Unexpected error when trying to set phone number.";
@@ -110,7 +133,9 @@ namespace E_commerce.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+
             await _signInManager.RefreshSignInAsync(user);
+            
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
