@@ -1,7 +1,11 @@
 ﻿using E_commerce.Data.Repository.IRepository;
 using E_commerce.Models;
+using E_Commerce.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration.UserSecrets;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace E_commerce.Areas.Customer.Controllers
 {
@@ -34,14 +38,38 @@ namespace E_commerce.Areas.Customer.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
         [HttpGet]
-        public IActionResult ViewDetail(int id)
+        public IActionResult ViewDetail(int productId)
         {
-            Product product = _unitOfWork.Product.FirstOrDefault(u => u.ID == id);
+            /*Product product = _unitOfWork.Product.FirstOrDefault(u => u.ID == id);
             if (product == null)
             {
                 return NotFound();
             }
-            return View(product);
+            return View(product);*/
+            ShoppingCart shoppingCart = new()
+            {
+                Product = _unitOfWork.Product.FirstOrDefault(u => u.ID == productId),
+                Quantity = 1,
+                ProductID = productId
+            };
+            return View(shoppingCart);
+        }
+        [HttpPost]
+        [Authorize]
+        public IActionResult ViewDetail(ShoppingCart cart)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+        
+            cart.ApplicationUserID = userId;
+
+            _unitOfWork.ShoppingCart.Create(cart);
+            _unitOfWork.Save();
+
+            return RedirectToAction("Index");
+
+           
         }
     }
 }

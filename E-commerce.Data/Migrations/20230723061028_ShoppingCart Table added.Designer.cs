@@ -4,6 +4,7 @@ using E_commerce.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_commerce.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230723061028_ShoppingCart Table added")]
+    partial class ShoppingCartTableadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,7 +35,7 @@ namespace E_commerce.Data.Migrations
 
                     b.Property<string>("ApplicationUserID")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProductID")
                         .HasColumnType("int");
@@ -40,11 +43,15 @@ namespace E_commerce.Data.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("ID");
 
-                    b.HasIndex("ApplicationUserID");
-
                     b.HasIndex("ProductID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("ShoppingCarts");
                 });
@@ -76,8 +83,8 @@ namespace E_commerce.Data.Migrations
                         {
                             ID = 1,
                             Name = "Mobiles",
-                            createdAt = "7/23/2023 12:21:15 PM",
-                            updatedAt = "7/23/2023 12:21:15 PM"
+                            createdAt = "7/23/2023 11:55:27 AM",
+                            updatedAt = "7/23/2023 11:55:27 AM"
                         });
                 });
 
@@ -136,8 +143,8 @@ namespace E_commerce.Data.Migrations
                             Price = 200000,
                             Rating = 4,
                             Title = "Apple Iphone 14",
-                            createdAt = "7/23/2023 12:21:15 PM",
-                            updatedAt = "7/23/2023 12:21:15 PM"
+                            createdAt = "7/23/2023 11:55:27 AM",
+                            updatedAt = "7/23/2023 11:55:27 AM"
                         });
                 });
 
@@ -385,15 +392,15 @@ namespace E_commerce.Data.Migrations
 
             modelBuilder.Entity("E_Commerce.Models.ShoppingCart", b =>
                 {
-                    b.HasOne("E_Commerce.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("E_commerce.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("E_Commerce.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -10,8 +10,10 @@ namespace E_commerce.Data.Repository
 {
     public class UserRepository : Repository<ApplicationUser>, IUserRepository
     {
+        private readonly ApplicationDbContext _db;
         public UserRepository(ApplicationDbContext db) : base(db)
         {
+            _db = db;
         }
     }
 }

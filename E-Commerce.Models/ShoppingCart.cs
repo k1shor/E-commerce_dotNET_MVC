@@ -25,7 +25,7 @@ namespace E_Commerce.Models
 
         [Required]
         public String ApplicationUserID { get; set; }
-        [ForeignKey("UserID")]
+        [ForeignKey("ApplicationUserID")]
         [Required]
         public ApplicationUser ApplicationUser { get; set;}
 
