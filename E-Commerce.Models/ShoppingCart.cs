@@ -21,6 +21,7 @@ namespace E_Commerce.Models
         [ForeignKey("ProductID")]
         public Product Product { get; set; }
         [Required]
+
         public int Quantity { get; set; }
 
         [Required]

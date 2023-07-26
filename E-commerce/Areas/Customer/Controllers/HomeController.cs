@@ -61,15 +61,27 @@ namespace E_commerce.Areas.Customer.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-        
+
             cart.ApplicationUserID = userId;
 
-            _unitOfWork.ShoppingCart.Create(cart);
+            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.FirstOrDefault(u => u.ProductID == cart.ProductID);
+            if (cartFromDb != null)
+            {
+                cartFromDb.Quantity += cart.Quantity;
+                TempData["success"] = "Quantity increased in cart";
+
+            }
+            else
+            {
+                _unitOfWork.ShoppingCart.Create(cart);
+                TempData["success"] = "Item added to cart";
+            }
             _unitOfWork.Save();
+
 
             return RedirectToAction("Index");
 
-           
+
         }
     }
 }
