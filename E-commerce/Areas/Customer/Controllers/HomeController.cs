@@ -23,7 +23,7 @@ namespace E_commerce.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Product> products = _unitOfWork.Product.FindAll("Category");
+            IEnumerable<Product> products = _unitOfWork.Product.FindAll(includeProperties: "Category");
             return View(products);
         }
 

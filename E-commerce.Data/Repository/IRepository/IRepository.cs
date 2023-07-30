@@ -9,7 +9,7 @@ namespace E_commerce.Data.Repository.IRepository
 {
     public interface IRepository<T> where T : class
     {
-        IEnumerable<T> FindAll(string? includeProperties = null);
+        IEnumerable<T> FindAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null);
         T FirstOrDefault(Expression<Func<T, bool>> filter);
         void Create(T entity);
         void Delete(T entity);

@@ -1,0 +1,63 @@
+﻿@using E_Commerce.Models;
+
+@model CartViewModel;
+
+
+<h1>Cart Items</h1>
+<div class="row">
+    <div class="col-md-9">
+        <table class="table text-center table-bordered  align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <td>Item</td>
+                    <td>Quantity</td>
+                    <td>Price</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cartObj in Model.shoppingCarts)
+                {
+                    <tr>
+                        <td>
+                            <div class="d-flex">
+                                <img src="@cartObj.Product.ImageUrl" alt="@cartObj.Product.Title" style="height: 100px; width: 150px">
+                                <div class="text-start ps-2">
+                                    <h3>@cartObj.Product.Title</h3>
+                                    <p>@cartObj.Product.Description</p>
+                                    <p>Rating: @cartObj.Product.Rating</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <form method="post" asp-action="decrease" asp-route-cartId="@cartObj.ID">
+                                    <button class="btn btn-warning">-</button>
+                                </form>
+                                <h4 class="px-3">@cartObj.Quantity</h4>
+                                <form method="post" asp-action="Increase" asp-route-cartId="@cartObj.ID">
+
+                                <button class="btn btn-success">+</button>
+                                </form>
+                            </div>
+                        </td>
+                        <td class="fw-bold fs-4">Rs.@(@cartObj.Quantity * @cartObj.Product.Price)</td>
+                        <td>
+                            <form method="post" asp-action="Remove" asp-route-cartId="@cartObj.ID">
+                            <button class="btn btn-danger" onclick="return confirm('Are you sure, you want to remove this item from cart?')'"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+    <div class="col-md-3">
+        <h3><u>Order Summary</u></h3>
+        <h4>Order Total: @Model.total</h4>
+
+        <a asp-controller="Order" asp-action="Index" class="btn btn-warning w-100">Proceed to Checkout</a>
+    </div>
+</div>
+

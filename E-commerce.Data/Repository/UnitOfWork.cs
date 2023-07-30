@@ -14,6 +14,8 @@ namespace E_commerce.Data.Repository
         public IProductRepository Product { get; set; }
         public IUserRepository User { get; set; }
         public IShoppingCartRepository ShoppingCart { get; set; }
+        public IOrderHeaderRepository OrderHeader { get; set; }
+        public IOrderDetailsRepository OrderDetails { get; set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
@@ -22,6 +24,8 @@ namespace E_commerce.Data.Repository
             Product = new ProductRepository(db);
             User = new UserRepository(db);
             ShoppingCart = new ShoppingCartRepository(db);
+            OrderHeader = new OrderHeaderRepository(db);
+            OrderDetails= new OrderDetailsRepository(db);
         }
 
         public void Save()

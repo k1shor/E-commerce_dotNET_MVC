@@ -36,12 +36,16 @@ namespace E_commerce.Data.Repository
             dbset.RemoveRange(entities);
         }
 
-        public IEnumerable<T> FindAll(string? includeProperties = null)
+        public IEnumerable<T> FindAll(Expression<Func<T, bool>>? filter = null, string ? includeProperties = null)
         {
             IQueryable<T> query = dbset;
             if(includeProperties != null)
             {
             query = query.Include(includeProperties);
+            }
+            if(filter != null)
+            {
+                query = query.Where(filter);
             }
 
             return query.ToList();

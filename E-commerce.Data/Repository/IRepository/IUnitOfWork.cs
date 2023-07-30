@@ -12,6 +12,8 @@ namespace E_commerce.Data.Repository.IRepository
         public IProductRepository Product { get; }
         public IUserRepository User { get; }
         public IShoppingCartRepository ShoppingCart { get; }
+        public IOrderHeaderRepository OrderHeader { get; }
+        public IOrderDetailsRepository OrderDetails { get; }
 
         void Save();
 

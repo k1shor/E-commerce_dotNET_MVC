@@ -28,7 +28,7 @@ namespace E_commerce.Areas.Admin.Controllers
         {
             //            List<Product> categories = _db.Categories.ToList();
             //IEnumerable<Product> categories = _db.FindAll();
-            IEnumerable<Product> products = _unitOfWork.Product.FindAll("Category");
+            IEnumerable<Product> products = _unitOfWork.Product.FindAll(includeProperties: "Category");
 
             return View(products);
         }
@@ -160,7 +160,7 @@ namespace E_commerce.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            IEnumerable<Product> products = _unitOfWork.Product.FindAll("Category");
+            IEnumerable<Product> products = _unitOfWork.Product.FindAll(includeProperties:"Category");
             return Json(new { data= products});
         }
 
