@@ -22,10 +22,11 @@ namespace E_commerce.Areas.Customer.Controllers
             CartViewModel cartViewModel = new()
             {
                 shoppingCarts = _unitOfWork.ShoppingCart.FindAll(u => u.ApplicationUserID == userId, "Product"),
+                orderHeader = new()
             };
             foreach (var cartObj in cartViewModel.shoppingCarts)
             {
-                cartViewModel.total += cartObj.Product.Price * cartObj.Quantity;
+                cartViewModel.orderHeader.OrderTotal += cartObj.Product.Price * cartObj.Quantity;
             }
             return View(cartViewModel);
         }

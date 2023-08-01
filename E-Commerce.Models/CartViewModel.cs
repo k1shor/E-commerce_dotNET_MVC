@@ -9,6 +9,7 @@ namespace E_Commerce.Models
     public class CartViewModel
     {
         public IEnumerable<ShoppingCart> shoppingCarts{ get; set; }
-        public double total { get; set; }
+        //public double total { get; set; }
+        public OrderHeader orderHeader { get; set; }
     }
 }

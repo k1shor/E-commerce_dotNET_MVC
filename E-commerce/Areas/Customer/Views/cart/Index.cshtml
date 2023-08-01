@@ -55,7 +55,7 @@
     </div>
     <div class="col-md-3">
         <h3><u>Order Summary</u></h3>
-        <h4>Order Total: @Model.total</h4>
+        <h4>Order Total: @Model.orderHeader.OrderTotal</h4>
 
         <a asp-controller="Order" asp-action="Index" class="btn btn-warning w-100">Proceed to Checkout</a>
     </div>
