@@ -84,7 +84,12 @@ namespace E_commerce.Areas.Customer.Controllers
 			}
 
 
-			return View(cartViewModel);
+			return RedirectToAction(nameof(OrderConfirmation), new { id = cartViewModel.orderHeader.Id });
+		}
+
+		public IActionResult OrderConfirmation(int id)
+		{
+			return View(id);
 		}
 	}
 }
