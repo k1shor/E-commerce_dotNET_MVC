@@ -44,12 +44,13 @@ namespace E_commerce.Areas.Customer.Controllers
 			return View(cartViewModel);
 		}
 		[HttpPost]
+		[ActionName("Index")]
 		public IActionResult PlaceOrder()
 		{
 			var claimsIdentity = (ClaimsIdentity)User.Identity;
 			var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-			cartViewModel.shoppingCarts= _unitOfWork.ShoppingCart.FindAll(u => u.ApplicationUserID == userId,
+			cartViewModel.shoppingCarts = _unitOfWork.ShoppingCart.FindAll(u => u.ApplicationUserID == userId,
 				includeProperties: "Product");
 
 			cartViewModel.orderHeader.OrderDate = System.DateTime.Now;
@@ -62,14 +63,15 @@ namespace E_commerce.Areas.Customer.Controllers
 			{
 				cartViewModel.orderHeader.OrderTotal += (cart.Product.Price * cart.Quantity);
 			}
-						
-				//payment and order status
-				cartViewModel.orderHeader.PaymentStatus = StaticData.Payment_Status_PENDING;
+
+			//payment and order status
+			cartViewModel.orderHeader.PaymentStatus = StaticData.Payment_Status_PENDING;
 				cartViewModel.orderHeader.OrderStatus = StaticData.Order_Status_PENDING;
 			
 				
 			_unitOfWork.OrderHeader.Create(cartViewModel.orderHeader);
 			_unitOfWork.Save();
+
 			foreach (var cart in cartViewModel.shoppingCarts)
 			{
 				OrderDetails orderDetail = new()

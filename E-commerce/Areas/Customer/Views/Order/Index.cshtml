@@ -2,7 +2,7 @@
 @model CartViewModel
 
 
-<form method="post" action="PlaceOrder">
+<form method="post">
 	<br />
 	<div class="container">
 		<div class="card shadow border-0">
@@ -83,8 +83,9 @@
 								</div>
 							</div>
 						</div>
+
 						<div class="col-12 col-lg-5 offset-lg-1">
-							<h4 class="d-flex justify-content-between align-items-center mb-3">
+							<h4 class="mb-3">
 								<span class="text-info">Order Summary:</span>
 							</h4>
 							<ul class="list-group mb-3">
@@ -95,31 +96,24 @@
 											<h6 class="my-0">@details.Product.Title</h6>
 											<small class="text-muted">Quantity: @details.Quantity</small>
 										</div>
-										<span class="text-muted">@((details.Product.Price * details.Quantity).ToString("c")) </span>
+										<span class="text-muted">Rs.@((details.Product.Price * details.Quantity).ToString()) </span>
 									</li>
 								}
-
 								<li class="list-group-item d-flex justify-content-between bg-light">
-									<small class="text-info">Total (USD)</small>
-									<strong class="text-info">@Model.orderHeader.OrderTotal.ToString("c")</strong>
+									<small class="text-info">Total (NRs.)</small>
+									<strong class="text-info">Rs.@Model.orderHeader.OrderTotal.ToString()</strong>
 								</li>
 							</ul>
 						</div>
+
+
 					</div>
 				</div>
 			</div>
 			<div class="card-footer">
-				<div class="row">
-					<div class="col-12 col-md-8 pt-2">
-						<p style="color:maroon; font-size:14px;">
-							Estimate Arrival Date:
-							@DateTime.Now.AddDays(7).ToShortDateString() - @DateTime.Now.AddDays(14).ToShortDateString()
-						</p>
-					</div>
-					<div class="col-12 col-md-4">
-						<button type="submit" value="Place Order" class="btn btn-primary form-control">Place Order</button>
-					</div>
-				</div>
+				<div class="text-end">
+						<button type="submit" value="Place Order" class="btn btn-primary">Place Order</button>
+				</div>			
 			</div>
 		</div>
 	</div>
