@@ -7,10 +7,10 @@
 }
 
 <div class="container mx-auto my-4 p-5 shadow-lg rounded-3">
-    <div class="row align-items-center">
         <form method="post">
-            <input type="hidden" asp-for="ProductID" />
+    <div class="row align-items-center">
         <div class="col-md-6 col-12 p-5">
+            <input type="hidden" asp-for="ProductID" />
             <img src="@Model.Product.ImageUrl" alt="@Model.Product.Title" class="w-100" />
         </div>
         <div class="col-md-6 col-12">
@@ -25,9 +25,9 @@
             </div>
             <button class="btn btn-warning">Add to Cart</button>
         </div>
-        </form>
 
     </div>
+        </form>
 
 </div>
 
