@@ -40,5 +40,8 @@ namespace E_Commerce.Models
         public string PostalCode { get; set; }
         [Required]
         public string Name { get; set; }
+
+//        public string? SessionId { get; set; }
+
     }
 }
