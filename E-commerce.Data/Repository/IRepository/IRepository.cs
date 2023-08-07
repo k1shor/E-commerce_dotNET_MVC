@@ -10,7 +10,7 @@ namespace E_commerce.Data.Repository.IRepository
     public interface IRepository<T> where T : class
     {
         IEnumerable<T> FindAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null);
-        T FirstOrDefault(Expression<Func<T, bool>> filter);
+        T FirstOrDefault(Expression<Func<T, bool>> filter, string? includeProperties = null);
         void Create(T entity);
         void Delete(T entity);
         void DeleteRange(IEnumerable<T> entities);

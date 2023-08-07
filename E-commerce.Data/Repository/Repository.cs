@@ -51,9 +51,13 @@ namespace E_commerce.Data.Repository
             return query.ToList();
         }
 
-        public T FirstOrDefault(Expression<Func<T, bool>> filter)
+        public T FirstOrDefault(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
             IQueryable<T> query = dbset.Where(filter);
+            if (includeProperties != null)
+            {
+                query = query.Include(includeProperties);
+            }
             return query.FirstOrDefault();
         }
 
