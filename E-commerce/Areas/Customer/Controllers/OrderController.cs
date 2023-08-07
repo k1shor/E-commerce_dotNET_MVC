@@ -88,11 +88,11 @@ namespace E_commerce.Areas.Customer.Controllers
             }
 
             //stripe logic
-            var domain = "https://localhost:7169/";
+            var domain = "https://localhost:7083/";
             var options = new SessionCreateOptions
             {
-                SuccessUrl = domain + $"customer/cart/OrderConfirmation?id={cartViewModel.OrderHeader.Id}",
-                CancelUrl = domain + "customer/cart/index",
+                SuccessUrl = domain + $"customer/order/OrderConfirmation?id={cartViewModel.orderHeader.Id}",
+                CancelUrl = domain + "customer/order/index",
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment",
             };
@@ -104,7 +104,7 @@ namespace E_commerce.Areas.Customer.Controllers
                     PriceData = new SessionLineItemPriceDataOptions
                     {
                         UnitAmount = (long)(item.Product.Price * 100), // $20.50 => 2050
-                        Currency = "usd",
+                        Currency = "npr",
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
                             Name = item.Product.Title
@@ -125,10 +125,10 @@ namespace E_commerce.Areas.Customer.Controllers
 
 
 
-            return RedirectToAction(nameof(OrderConfirmation), new
+            /*return RedirectToAction(nameof(OrderConfirmation), new
             {
                 id = cartViewModel.orderHeader.Id
-            });
+            });*/
         }
 
         public IActionResult OrderConfirmation(int id)
@@ -143,10 +143,7 @@ namespace E_commerce.Areas.Customer.Controllers
                     _unitOfWork.OrderHeader.UpdateStripePaymentID(id, session.Id, session.PaymentIntentId);
                     _unitOfWork.OrderHeader.UpdateStatus(id, StaticData.Order_Status_CONFIRMED, StaticData.Payment_Status_CONFIRMED);
                     _unitOfWork.Save();
-                }
-
-
-            
+                }            
 
             List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCart
                 .FindAll(u => u.ApplicationUserID == orderHeader.ApplicationUserId).ToList();
@@ -156,6 +153,11 @@ namespace E_commerce.Areas.Customer.Controllers
             return View(id);
         }
 
+        public IActionResult ShowAllOrders()
+        {
+            return View();
+        }
+
 
         #region API CALLS
 
@@ -163,7 +165,7 @@ namespace E_commerce.Areas.Customer.Controllers
         [Authorize(Roles =StaticData.ROLE_ADMIN)]
         public IActionResult GetAll()
         {
-            List<OrderHeader> objOrderHeaders = _unitOfWork.OrderHeader.GetAll(includeProperties: "ApplicationUser").ToList();
+            List<OrderHeader> objOrderHeaders = _unitOfWork.OrderHeader.FindAll(includeProperties: "ApplicationUser").ToList();
             return Json(new { data = objOrderHeaders });
         }
 

@@ -64,7 +64,7 @@ namespace E_commerce.Areas.Customer.Controllers
 
             cart.ApplicationUserID = userId;
 
-            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.FirstOrDefault(u => u.ProductID == cart.ProductID);
+            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.FirstOrDefault(u => u.ProductID == cart.ProductID && u.ApplicationUserID==userId);
             if (cartFromDb != null)
             {
                 cartFromDb.Quantity += cart.Quantity;
