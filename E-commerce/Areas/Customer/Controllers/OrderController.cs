@@ -9,6 +9,7 @@ using Utils;
 namespace E_commerce.Areas.Customer.Controllers
 {
     [Area("Customer")]
+    [Authorize(Roles =StaticData.ROLE_CUSTOMER)]
     public class OrderController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -134,16 +135,16 @@ namespace E_commerce.Areas.Customer.Controllers
         public IActionResult OrderConfirmation(int id)
         {
             OrderHeader orderHeader = _unitOfWork.OrderHeader.FirstOrDefault(u => u.Id == id, includeProperties: "ApplicationUser");
-            
-                var service = new SessionService();
-                Session session = service.Get(orderHeader.SessionId);
 
-                if (session.PaymentStatus.ToLower() == "paid")
-                {
-                    _unitOfWork.OrderHeader.UpdateStripePaymentID(id, session.Id, session.PaymentIntentId);
-                    _unitOfWork.OrderHeader.UpdateStatus(id, StaticData.Order_Status_CONFIRMED, StaticData.Payment_Status_CONFIRMED);
-                    _unitOfWork.Save();
-                }            
+            var service = new SessionService();
+            Session session = service.Get(orderHeader.SessionId);
+
+            if (session.PaymentStatus.ToLower() == "paid")
+            {
+                _unitOfWork.OrderHeader.UpdateStripePaymentID(id, session.Id, session.PaymentIntentId);
+                _unitOfWork.OrderHeader.UpdateStatus(id, StaticData.Order_Status_CONFIRMED, StaticData.Payment_Status_CONFIRMED);
+                _unitOfWork.Save();
+            }
 
             List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCart
                 .FindAll(u => u.ApplicationUserID == orderHeader.ApplicationUserId).ToList();
@@ -153,23 +154,6 @@ namespace E_commerce.Areas.Customer.Controllers
             return View(id);
         }
 
-        public IActionResult ShowAllOrders()
-        {
-            return View();
-        }
-
-
-        #region API CALLS
-
-        [HttpGet]
-        [Authorize(Roles =StaticData.ROLE_ADMIN)]
-        public IActionResult GetAll()
-        {
-            List<OrderHeader> objOrderHeaders = _unitOfWork.OrderHeader.FindAll(includeProperties: "ApplicationUser").ToList();
-            return Json(new { data = objOrderHeaders });
-        }
-
-
-        #endregion
+        
     }
 }

@@ -5,8 +5,11 @@ $(document).ready(function () {
 });
 
 function loadDataTable() {
-    dataTable = $('#tblData').DataTable({
-        "ajax": { url: '/customer/order/getall' },
+    dataTable = $('#myTable').DataTable({
+        "ajax": {
+            url: '/admin/ordermanagement/getall',
+            
+        },
         "columns": [
             { data: 'id', "width": "5%" },
             { data: 'name', "width": "15%" },
