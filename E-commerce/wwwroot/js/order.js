@@ -25,7 +25,7 @@ $(document).ready(function () {
     }
 });
 
-function loadDataTable() {
+function loadDataTable(status) {
     dataTable = $('#myTable').DataTable({
         "ajax": {
             url: '/admin/ordermanagement/getall?status=' + status,

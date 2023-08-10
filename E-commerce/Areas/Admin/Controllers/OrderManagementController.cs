@@ -29,16 +29,16 @@ namespace E_commerce.Areas.Admin.Controllers
             switch (status)
             {
                 case "pending":
-                    objOrderHeaders = objOrderHeaders.Where(u => u.PaymentStatus == SD.PaymentStatusDelayedPayment);
+                    objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == StaticData.Order_Status_PENDING).ToList();
                     break;
-                case "inprocess":
-                    objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == SD.StatusInProcess);
+                case "processing":
+                    objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == StaticData.Order_Status_PROCESSING).ToList();
                     break;
                 case "completed":
-                    objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == SD.StatusShipped);
+                    objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == StaticData.Order_Status_COMPLETED).ToList();
                     break;
                 case "approved":
-                    objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == SD.StatusApproved);
+                    objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == StaticData.Order_Status_CONFIRMED).ToList();
                     break;
                 default:
                     break;
