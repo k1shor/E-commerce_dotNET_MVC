@@ -2,28 +2,26 @@
 
 $(document).ready(function () {
     var url = window.location.search;
-    if (url.includes("inprocess")) {
-        loadDataTable("inprocess");
+    if (url.includes("PENDING")) {
+        loadDataTable("PENDING");
+    }
+    else if (url.includes("PROCESSING")) {
+        loadDataTable("PROCESSING");
+    }
+    else if (url.includes("CONFIRMED")) {
+        loadDataTable("CONFIRMED");
+    }
+    else if (url.includes("COMPLETED")) {
+        loadDataTable("COMPLETED");
+    }
+    else if (url.includes("CANCELLED")) {
+        loadDataTable("CANCELLED");
     }
     else {
-        if (url.includes("completed")) {
-            loadDataTable("completed");
-        }
-        else {
-            if (url.includes("pending")) {
-                loadDataTable("pending");
-            }
-            else {
-                if (url.includes("approved")) {
-                    loadDataTable("approved");
-                }
-                else {
-                    loadDataTable("all");
-                }
-            }
-        }
+        loadDataTable("all");
     }
-});
+}
+);
 
 function loadDataTable(status) {
     dataTable = $('#myTable').DataTable({
@@ -42,7 +40,7 @@ function loadDataTable(status) {
                 data: 'id',
                 "render": function (data) {
                     return `<div class="w-75 btn-group" role="group">
-                     <a href="/admin/order/details?orderId=${data}" class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i></a>               
+                     <a href="/Admin/OrderManagement/OrderDetails?orderId=${data}" class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i></a>               
                     
                     </div>`
                 },

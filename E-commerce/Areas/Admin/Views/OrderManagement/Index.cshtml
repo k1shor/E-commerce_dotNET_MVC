@@ -4,21 +4,25 @@
     var inprocess = "text-primary";
     var completed = "text-primary";
     var approved = "text-primary";
+    var cancelled = "text-primary";
     var all = "text-primary";
 
     switch (status)
     {
-        case "pending":
+        case "PENDING":
             pending = "active text-white bg-primary";
             break;
-        case "inprocess":
+        case "PROCESSING":
             inprocess = "active text-white bg-primary";
             break;
-        case "completed":
+        case "COMPLETED":
             completed = "active text-white bg-primary";
             break;
-        case "approved":
+        case "CONFIRMED":
             approved = "active text-white bg-primary";
+            break;
+        case "CANCELLED":
+            cancelled = "active text-white bg-primary";
             break;
         default:
             all = "active text-white bg-primary";
@@ -37,17 +41,20 @@
         <div class="d-flex justify-content-between pb-5 pt-2">
             <span></span>
             <ul class="list-group list-group-horizontal-sm">
-                <a style="text-decoration:none;" asp-controller="OrderManagement" asp-action="Index" asp-route-status="inprocess">
+                <a style="text-decoration:none;" asp-controller="OrderManagement" asp-action="Index" asp-route-status="PROCESSING">
                 <li class="list-group-item @inprocess">In Process</li>
                 </a>
-                <a style="text-decoration:none;" asp-controller="OrderManagement" asp-action="Index" asp-route-status="pending">
+                <a style="text-decoration:none;" asp-controller="OrderManagement" asp-action="Index" asp-route-status="PENDING">
                 <li class="list-group-item @pending">Payment Pending</li>
                 </a>
-                <a style="text-decoration:none;" asp-controller="OrderManagement" asp-action="Index" asp-route-status="completed">
+                <a style="text-decoration:none;" asp-controller="OrderManagement" asp-action="Index" asp-route-status="COMPLETED">
                 <li class="list-group-item @completed">Completed</li>
                 </a>
-                <a style="text-decoration:none;" asp-controller="OrderManagement" asp-action="Index" asp-route-status="approved">
-                <li class="list-group-item @approved">Approved</li>
+                <a style="text-decoration:none;" asp-controller="OrderManagement" asp-action="Index" asp-route-status="CONFIRMED">
+                <li class="list-group-item @approved">Confirmed</li>
+                </a>
+                <a style="text-decoration:none;" asp-controller="OrderManagement" asp-action="Index" asp-route-status="CANCELLED">
+                <li class="list-group-item @cancelled">Cancelled</li>
                 </a>
                 <a style="text-decoration:none;" asp-controller="OrderManagement" asp-action="Index" asp-route-status="all">
                 <li class="list-group-item @all">All</li>

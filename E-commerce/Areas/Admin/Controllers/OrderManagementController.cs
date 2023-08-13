@@ -18,6 +18,15 @@ namespace E_commerce.Areas.Admin.Controllers
         {
             return View();
         }
+        public IActionResult OrderDetails(int orderId)
+        {
+            OrderVM orderObj = new()
+            {
+                OrderHeader = _unitOfWork.OrderHeader.FirstOrDefault(u => u.Id == orderId, "ApplicationUser"),
+                OrderDetail = _unitOfWork.OrderDetails.FindAll(u => u.OrderHeaderId == orderId).ToList()
+            };
+            return View(orderObj);
+        }
 
 
         #region API CALLS
@@ -28,18 +37,22 @@ namespace E_commerce.Areas.Admin.Controllers
             List<OrderHeader> objOrderHeaders = _unitOfWork.OrderHeader.FindAll(includeProperties: "ApplicationUser").ToList();
             switch (status)
             {
-                case "pending":
+                case "PENDING":
                     objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == StaticData.Order_Status_PENDING).ToList();
                     break;
-                case "processing":
+                case "PROCESSING":
                     objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == StaticData.Order_Status_PROCESSING).ToList();
                     break;
-                case "completed":
+                case "COMPLETED":
                     objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == StaticData.Order_Status_COMPLETED).ToList();
                     break;
-                case "approved":
+                case "CONFIRMED":
                     objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == StaticData.Order_Status_CONFIRMED).ToList();
                     break;
+                case "CANCELLED":
+                    objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == StaticData.Order_Status_CANCELLED).ToList();
+                    break;
+
                 default:
                     break;
 
