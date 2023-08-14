@@ -23,7 +23,7 @@ namespace E_commerce.Areas.Admin.Controllers
             OrderVM orderObj = new()
             {
                 OrderHeader = _unitOfWork.OrderHeader.FirstOrDefault(u => u.Id == orderId, "ApplicationUser"),
-                OrderDetail = _unitOfWork.OrderDetails.FindAll(u => u.OrderHeaderId == orderId).ToList()
+                OrderDetail = _unitOfWork.OrderDetails.FindAll(u => u.OrderHeaderId == orderId, "Product").ToList()
             };
             return View(orderObj);
         }
