@@ -2,6 +2,7 @@
 using E_Commerce.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
 using System.Security.Claims;
 using Utils;
 
@@ -11,6 +12,8 @@ namespace E_commerce.Areas.Admin.Controllers
     public class OrderManagementController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        [BindProperty]
+        public OrderVM orderObj { get; set; }
         public OrderManagementController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -22,7 +25,7 @@ namespace E_commerce.Areas.Admin.Controllers
 
         public IActionResult OrderDetails(int orderId)
         {
-            OrderVM orderObj = new()
+            orderObj = new()
             {
                 OrderHeader = _unitOfWork.OrderHeader.FirstOrDefault(u => u.Id == orderId, "ApplicationUser"),
                 OrderDetail = _unitOfWork.OrderDetails.FindAll(u => u.OrderHeaderId == orderId, "Product").ToList()
@@ -31,7 +34,7 @@ namespace E_commerce.Areas.Admin.Controllers
         }
         [HttpPost]
         [Authorize]
-        public IActionResult UpdateOrder(OrderVM orderObj)
+        public IActionResult UpdateOrder()
         {
             var orderHeader = _unitOfWork.OrderHeader.FirstOrDefault(u => u.Id == orderObj.OrderHeader.Id);
             orderHeader.Name = orderObj.OrderHeader.Name;
@@ -43,7 +46,54 @@ namespace E_commerce.Areas.Admin.Controllers
             _unitOfWork.OrderHeader.Update(orderHeader);
             _unitOfWork.Save();
             TempData["success"] = "Order Details Updated Successfully.";
-            return RedirectToAction(nameof(OrderDetails), new { orderId = orderHeader.Id});
+            return RedirectToAction(nameof(OrderDetails), new { orderId = orderHeader.Id });
+        }
+        [HttpPost]
+        [Authorize(Roles = StaticData.ROLE_ADMIN)]
+        public IActionResult StartProcessing()
+        {
+            _unitOfWork.OrderHeader.UpdateStatus(orderObj.OrderHeader.Id, StaticData.Order_Status_PROCESSING);
+            _unitOfWork.Save();
+            TempData["Success"] = "Order Details Updated Successfully.";
+            return RedirectToAction(nameof(OrderDetails), new { orderId = orderObj.OrderHeader.Id });
+        }
+
+        [HttpPost]
+        [Authorize(Roles = StaticData.ROLE_ADMIN)]
+        public IActionResult ShipOrder()
+        {
+            var orderHeader = _unitOfWork.OrderHeader.FirstOrDefault(u => u.Id == orderObj.OrderHeader.Id);
+            /* carrier and tracking number can be added in model and updated while shipping*/
+            orderHeader.OrderStatus = StaticData.Order_Status_SHIPPED;
+            orderHeader.ShippingDate = DateTime.Now;
+            _unitOfWork.OrderHeader.Update(orderHeader);
+            _unitOfWork.Save();
+            TempData["Success"] = "Order Shipped Successfully.";
+            return RedirectToAction(nameof(OrderDetails), new { orderId = orderObj.OrderHeader.Id });
+        }
+        [HttpPost]
+        [Authorize(Roles = StaticData.ROLE_ADMIN)]
+        public IActionResult CancelOrder()
+        {
+            var orderHeader = _unitOfWork.OrderHeader.FirstOrDefault(u => u.Id == orderObj.OrderHeader.Id);
+
+            if (orderHeader.PaymentStatus == StaticData.Payment_Status_CONFIRMED)
+            {
+                var options = new RefundCreateOptions
+                {
+                    Reason = RefundReasons.RequestedByCustomer,
+                    PaymentIntent = orderHeader.PaymentIntentId
+                };
+
+                var service = new RefundService();
+                Refund refund = service.Create(options);
+            }
+
+            _unitOfWork.OrderHeader.UpdateStatus(orderHeader.Id, StaticData.Order_Status_CANCELLED, StaticData.Payment_Status_REFUNDED);
+            _unitOfWork.Save();
+            TempData["Success"] = "Order Cancelled Successfully.";
+            return RedirectToAction(nameof(OrderDetails), new { orderId = orderObj.OrderHeader.Id });
+
         }
 
 

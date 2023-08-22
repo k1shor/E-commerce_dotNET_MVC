@@ -170,7 +170,10 @@
                                     <input asp-for="OrderHeader.PaymentStatus" readonly type="text" class="form-control" />
                                 </div>
                             </div>
-                            @if (User.IsInRole(StaticData.ROLE_ADMIN))
+                            @if (User.IsInRole(StaticData.ROLE_ADMIN) && 
+                            Model.OrderHeader.OrderStatus != StaticData.Order_Status_CANCELLED && 
+                            Model.OrderHeader.OrderStatus != StaticData.Order_Status_SHIPPED && 
+                            Model.OrderHeader.OrderStatus != StaticData.Order_Status_COMPLETED)
                             {
                                 <input type="submit" asp-action="UpdateOrder" class="btn btn-warning form-control my-1" value="Update Order Details" />
                             }
@@ -209,16 +212,18 @@
                                     </div>
                                 </li>
                             </ul>
-                            @if(Model.OrderHeader.PaymentStatus == StaticData.Payment_Status_CONFIRMED && Model.OrderHeader.OrderStatus ==StaticData.Order_Status_PENDING)
+                            @if(Model.OrderHeader.PaymentStatus == StaticData.Payment_Status_CONFIRMED && 
+                            Model.OrderHeader.OrderStatus ==StaticData.Order_Status_CONFIRMED)
                             {
-                            <input type="submit" class="btn btn-primary form-control my-1" value="Start Processing" />
+                            <input type="submit" class="btn btn-primary form-control my-1" value="Start Processing" asp-action="StartProcessing" />
                             }
                             @if(Model.OrderHeader.OrderStatus == StaticData.Order_Status_PROCESSING)
                             {
-                            <input type="submit" class="btn btn-primary form-control my-1" value="Ship Order" />
+                            <input type="submit" class="btn btn-primary form-control my-1" value="Ship Order" asp-action="ShipOrder"/>
                             }
-                            @if(Model.OrderHeader.OrderStatus != StaticData.Order_Status_PENDING){
-                            <input type="submit" class="btn btn-danger form-control my-1" value="Cancel Order" />
+                            @if (Model.OrderHeader.OrderStatus != StaticData.Order_Status_SHIPPED && Model.OrderHeader.OrderStatus != StaticData.Order_Status_COMPLETED && Model.OrderHeader.OrderStatus != StaticData.Order_Status_PENDING && Model.OrderHeader.OrderStatus != StaticData.Order_Status_CANCELLED)
+                            {
+                            <input type="submit" class="btn btn-danger form-control my-1" value="Cancel Order" asp-action="CancelOrder"/>
                             }
                         </div>
                     </div>
