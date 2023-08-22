@@ -3,6 +3,8 @@
 
 <form method="post">
     <br />
+    <input type="hidden" asp-for="OrderHeader.Id" />
+    <input type="hidden" asp-for="OrderHeader.OrderTotal" />
     <div class="container">
         <div class="card">
             <div class="card-header bg-dark text-light ml-0">
@@ -119,6 +121,12 @@
                                     <input value="@Model.OrderHeader.OrderDate.ToShortDateString()" readonly type="text" class="form-control" />
                                 </div>
                             </div>
+                            <div class="row my-1">
+                                <div class="col-3">Order Status</div>
+                                <div class="col-9">
+                                    <input value="@Model.OrderHeader.OrderStatus" readonly type="text" class="form-control" />
+                                </div>
+                            </div>
 
                             <div class="row my-1">
                                 <div class="col-3">Shipping Date</div>
@@ -164,7 +172,7 @@
                             </div>
                             @if (User.IsInRole(StaticData.ROLE_ADMIN))
                             {
-                                <input type="submit" class="btn btn-warning form-control my-1" value="Update Order Details" />
+                                <input type="submit" asp-action="UpdateOrder" class="btn btn-warning form-control my-1" value="Update Order Details" />
                             }
                         </div>
                         <div class="col-12 col-lg-5 offset-lg-1">
@@ -201,10 +209,17 @@
                                     </div>
                                 </li>
                             </ul>
-                            <input type="submit" class="btn btn-success form-control my-1" value="Pay Now" />
+                            @if(Model.OrderHeader.PaymentStatus == StaticData.Payment_Status_CONFIRMED && Model.OrderHeader.OrderStatus ==StaticData.Order_Status_PENDING)
+                            {
                             <input type="submit" class="btn btn-primary form-control my-1" value="Start Processing" />
+                            }
+                            @if(Model.OrderHeader.OrderStatus == StaticData.Order_Status_PROCESSING)
+                            {
                             <input type="submit" class="btn btn-primary form-control my-1" value="Ship Order" />
+                            }
+                            @if(Model.OrderHeader.OrderStatus != StaticData.Order_Status_PENDING){
                             <input type="submit" class="btn btn-danger form-control my-1" value="Cancel Order" />
+                            }
                         </div>
                     </div>
                 </div>
