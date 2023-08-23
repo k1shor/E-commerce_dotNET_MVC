@@ -1,4 +1,5 @@
 ﻿@page
+@using Utils;
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
@@ -98,13 +99,16 @@
                             <label asp-for="Input.Phone">Phone</label>
                             <span asp-validation-for="Input.Phone" class="text-danger"></span>
                         </div>
+                        @if (User.IsInRole(StaticData.ROLE_ADMIN))
+                        {
                         <div class="form-floating mb-3 w-50">
                             <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
                                 <option disabled selected>-Select Role-</option>
                             </select>
                             <label>Role</label>
 
-                        </div>
+                        </div> 
+                        }
                     </div>
                     <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
                 </form>

@@ -170,7 +170,7 @@
                                     <input asp-for="OrderHeader.PaymentStatus" readonly type="text" class="form-control" />
                                 </div>
                             </div>
-                            @if (User.IsInRole(StaticData.ROLE_ADMIN) && 
+                            @if (
                             Model.OrderHeader.OrderStatus != StaticData.Order_Status_CANCELLED && 
                             Model.OrderHeader.OrderStatus != StaticData.Order_Status_SHIPPED && 
                             Model.OrderHeader.OrderStatus != StaticData.Order_Status_COMPLETED)
