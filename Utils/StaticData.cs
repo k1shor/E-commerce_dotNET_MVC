@@ -16,5 +16,7 @@
         public const string Order_Status_CANCELLED = "CANCELLED";
         public const string Order_Status_SHIPPED = "SHIPPED";
 
+        public const string SessionCart = "SessionShoppingCart";
+
     }
 }

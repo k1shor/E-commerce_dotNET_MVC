@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using System.Diagnostics;
 using System.Security.Claims;
+using Utils;
 
 namespace E_commerce.Areas.Customer.Controllers
 {
@@ -23,6 +24,15 @@ namespace E_commerce.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (claim != null)
+            {
+                HttpContext.Session.SetInt32(StaticData.SessionCart,
+                _unitOfWork.ShoppingCart.FindAll(u => u.ApplicationUserID == claim.Value).Count());
+            }
+
             IEnumerable<Product> products = _unitOfWork.Product.FindAll(includeProperties: "Category");
             return View(products);
         }
@@ -77,7 +87,8 @@ namespace E_commerce.Areas.Customer.Controllers
                 TempData["success"] = "Item added to cart";
             }
             _unitOfWork.Save();
-
+            HttpContext.Session.SetInt32(StaticData.SessionCart,
+               _unitOfWork.ShoppingCart.FindAll(u => u.ApplicationUserID == userId).Count());
 
             return RedirectToAction("Index");
 

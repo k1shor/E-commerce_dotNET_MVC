@@ -2,6 +2,7 @@
 using E_Commerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Utils;
 
 namespace E_commerce.Areas.Customer.Controllers
 {
@@ -38,12 +39,16 @@ namespace E_commerce.Areas.Customer.Controllers
             if (cartObj.Quantity <= 1)
             {
                 _unitOfWork.ShoppingCart.Delete(cartObj);
+                _unitOfWork.Save();
+                HttpContext.Session.SetInt32(StaticData.SessionCart, _unitOfWork.ShoppingCart
+                    .FindAll(u => u.ApplicationUserID == cartObj.ApplicationUserID).Count() - 1);
             }
             else
             {
                 cartObj.Quantity--;
-            }
             _unitOfWork.Save();
+            }
+            
 
             return RedirectToAction("Index");
         }
@@ -65,6 +70,8 @@ namespace E_commerce.Areas.Customer.Controllers
 
             _unitOfWork.ShoppingCart.Delete(cartObj);
             _unitOfWork.Save();
+            HttpContext.Session.SetInt32(StaticData.SessionCart, _unitOfWork.ShoppingCart
+                    .FindAll(u => u.ApplicationUserID == cartObj.ApplicationUserID).Count() - 1);
 
             return RedirectToAction("Index");
         }

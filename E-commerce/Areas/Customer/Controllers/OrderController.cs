@@ -108,7 +108,9 @@ namespace E_commerce.Areas.Customer.Controllers
                         Currency = "npr",
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
-                            Name = item.Product.Title
+                            Name = item.Product.Title,
+                            Description = item.Product.ImageUrl,
+                            Images = new List<string> {item.Product.ImageUrl}
                         }
                     },
                     Quantity = item.Quantity
@@ -151,6 +153,7 @@ namespace E_commerce.Areas.Customer.Controllers
 
             _unitOfWork.ShoppingCart.DeleteRange(shoppingCarts);
             _unitOfWork.Save();
+            HttpContext.Session.Clear();
             return View(id);
         }
 
